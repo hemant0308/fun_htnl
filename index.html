@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Just One Question ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      top: 30%;
+      transform: translateY(-30%);
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #333;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #444;
+      height: 20px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: absolute;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background-color: #4CAF50;
+      color: white;
+      left: 40%;
+      top: 60%;
+      z-index: 1;
+    }
+
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+      left: 55%;
+      top: 60%;
+      z-index: 2;
+    }
+
+    #finalScreen {
+      display: none;
+      position: absolute;
+      top: 30%;
+      width: 100%;
+    }
+
+    #callBtn {
+      padding: 14px 24px;
+      font-size: 18px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1 id="question">Do you like me? ❤️</h1>
+  <div id="message"></div>
+
+  <button id="yesBtn" class="btn">Yes 😍</button>
+  <button id="noBtn" class="btn">No 🙈</button>
+</div>
+
+<div id="finalScreen">
+  <h1>Hehe… I knew it! 😄❤️</h1>
+  <p>You just made my day 😊</p>
+  <button id="callBtn">Call Me 📞</button>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const message = document.getElementById("message");
+  const finalScreen = document.getElementById("finalScreen");
+
+  let moveCount = 0;
+
+  const messages = [
+    "Are you sure? 😏",
+    "Think again… 🙃",
+    "Last chance 😜",
+    "You can’t escape 😆"
+  ];
+
+  function moveNoButton() {
+    if (moveCount >= 4) {
+      // Overlap with YES
+      noBtn.style.left = yesBtn.offsetLeft + "px";
+      noBtn.style.top = yesBtn.offsetTop + "px";
+      return;
+    }
+
+    const maxX = window.innerWidth - 120;
+    const maxY = window.innerHeight - 120;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    message.innerText = messages[moveCount];
+
+    // Make YES bigger each time 😏
+    let scale = 1 + (moveCount * 0.2);
+    yesBtn.style.transform = `scale(${scale})`;
+
+    moveCount++;
+  }
+
+  // Desktop hover
+  noBtn.addEventListener("mouseover", moveNoButton);
+
+  // Mobile touch (before click)
+  noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  // YES clicked
+  yesBtn.addEventListener("click", function() {
+    document.querySelector(".container").style.display = "none";
+    finalScreen.style.display = "block";
+  });
+
+  // Call button (replace number)
+  document.getElementById("callBtn").addEventListener("click", function() {
+    window.location.href = "tel:+911234567890"; // <-- CHANGE THIS
+  });
+</script>
+
+</body>
+</html>
